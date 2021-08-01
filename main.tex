@@ -1,0 +1,59 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{amsthm}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\E}{\mathbb{E}}
+
+
+\title{Assistive Signals}
+\author{Bryce McLaughlin}
+
+\begin{document}
+
+\section*{Introduction}
+
+High level Concept Explanation
+
+\subsection*{Problem Enviornment}
+
+An individual of type $X \in \X$ arrives independently according to probability distribution $\Gamma_X \in \Delta(\X)$. We need to respond with an action $Y \in \Y$ (which can be random) that then earns us a utility $U(X,Y) \in \R$. Once $X$ and $Y$ are realized the value of $U(X,Y)$ is drawn independently from $\Gamma_U(X,Y) \in \Delta(\mathbb{R}).$ In this way $\Gamma_U$ is a function on $\X \times \Y$ which determines the irreducible uncertainty in the outcomes of our problem. Our goal is to maximize our utility.
+
+\subsection*{Decision Rule}
+
+To determine $Y$ a decision rule $D:\X \to \Delta(\Y)$ is implemented. A decision rule captures our system's response to the problem. As utility-maximizer we hope to take an action from,
+$$\Y^*_X = \arg\max_Y \E[U(X,Y)|X].$$
+Thus, when evaluating a decision rule, we can focus on minimizing the deviations taken from this optimal set. This gives us the expected loss function for a decision rule $D$,
+$$L(D) = \E[U(X,Y^*(X)) - U(X,D(X))],$$
+where $Y^*(X) \in \Y^*_X$. Regardless of whether we have direct control over the formation of $D$, we want to take actions to minimize $L(D).$
+
+\subsection*{Decision Maker}
+
+The decision-maker is the creator of the decision rule. They earn a utility of,
+$$V(X,Y) = U(X,Y) + \delta(X,Y).$$
+In this way $\delta$ exactly encodes the deviations between our utility and the decision maker's utility. If $\delta = 0$, we say we are in control of the decision (as the decision maker acts exactly as we would want them to).
+
+
+
+\subsection*{Assistive Signal}
+
+
+
+\end{document}
