@@ -1,0 +1,98 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{comment}
+\usepackage{amsmath}
+\usepackage{enumitem}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{fullpage}
+\usepackage{hyperref}
+\usepackage{natbib}
+\bibliographystyle{apalike}
+\usepackage{amsthm}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\X}{\mathcal{X}}
+\newcommand{\Y}{\mathcal{Y}}
+\newcommand{\E}{\mathbb{E}}
+
+
+\title{Targeted Assistance}
+\author{Bryce McLaughlin}
+
+\begin{document}
+
+\section*{Targeted Assistance}
+
+\textit{Bryce McLaughlin}
+
+\medskip
+
+\textbf{Research Question:} Will human decision-makers shift their decisions more in response to a prediction when the are given selective access to it? Can this be leveraged to increase the prediction accuracy of a human-controlled decision system?
+
+\subsection*{Motivation}
+The practices of designing a prediction tool for the uses of automation and assistance are often confused as being identical. When a prediction is used for automation it acts as a decision rule: turning observable inputs into a final decision which is then put into practice. In contrast, an assistive prediction attempts to provide information to an autonomous decision-maker in hopes that they will prevent the decision-maker from committing would-be errors without eroding their properly taken decisions. In this way a decision rule wants to act as a substitute for the information a decision-maker stores while the assistive prediction wishes to acts a complement. This distinction suggests that the optimal predictions (in terms of minimizing system loss) might differ in the information they represent.
+
+Even when the two have the exact same structure, a function $s: \X \to \Y$ where $\X$ is the set of observables and $\Y$ the possible prediction outcomes, the optimal times to utilize the prediction differ. In automation $\Y$ need always be implemented, but in assistance additional information can be encoded through selecting prediction sending. If the prediction is only sent at the times the user is \textit{at high risk of error}, the decision-maker should have less faith in their prior and rely more on the prediction to make their final decision.     
+
+\subsection*{Model}
+
+A \textbf{product} arrives with observables $x \in \X$. The observables determine the distribution from which the product's value $v \in \mathbb{R}$ is drawn. The  realization of the products value $v$ remains random upon observation of $x$ due to unknown factors such as condition or quality. From $x$ an \textbf{evaluator} must form an estimate of the value $v$, $\hat{v} \in \mathbb{R}$, which earns them a utility of $U = 1 - L(v,\hat{v})$ for some loss function $L: \mathbb{R}^2 \to [0,1]$.
+
+When the evaluator is not interferred with, they take a decision according to their prior belief, $\Theta$, of possible valuations for products to minimize the expected loss,
+$$\hat{v}_0 = \arg \min_{y \in \mathbb{R}}E_\Theta[L(v,y)|x].$$
+
+When the evaluator is interferred with by receiving a data-driven prediction $s: \X \to \Y$, they form a posterior belief $\Theta|s$ and take a decision,
+$$\hat{v}_s = \arg \min_{y \in \mathbb{R}}E_{\Theta|s}[L(v,y)|x].$$
+Under Bayes rule, the distance between $\hat{v}_0$ and $\hat{v}_s$ for any given $x$ will depend on the ratio of the evaluator's certainty in $\hat{v}_0$ to their belief in the accuracy of $s$ for products with observables $x$.
+
+Utilizing the same decision rule we can increase the evaluators prediction-taking by only offering them the advice in the cases they are most likely to commit an error. If a prediction is selectively offered, more information is offered, specifically that the evaluator is likely to error. This requires access to $Z$, a dataset of past observations where the decision-maker was not interferred. Using $Z$ we can form an estimate of the evaluator's loss under $v_0$, $\phi:\X \to [0,1]$.
+
+If we only send the evaluator signals for $x$ such that $\phi(x)$ is in the top $\epsilon$ percentile, the signal begins to carry additional information about the accuracy of $v_0$. As $\epsilon \to 0$, the evaluator's confidence in $v_0$ deteriorates on the observables $x$ for which they receive a signal $s$ as they need to rationalize their past mistakes on individuals who `resemble' the current product (according to $\phi$). Thus, a strategic limitation of interference should cause greater prediction-taking from the evaluator when a signal is sent. If the evaluator performs adequately enough under scenarios for which they do not receive $s$ and implement $v_0$, the overall expected loss of the evaluator should reduce.
+
+
+\subsection*{Hypotheses}
+
+\begin{enumerate}
+	\item[A.] Participants take predictions more as their access to them becomes limited to instances where they are more likely to make a mistake.
+	\item[B.] System accuracy can be improved through restricting prediction access strategically.
+	\item[C.] The evaluator will not be to able make proper use of $\phi$ when it is provided directly.
+\end{enumerate}
+
+\subsection*{Experiment}
+
+\begin{enumerate}
+	\item Participants are asked to evaluate the monthly rent on 10 different appartments based on photos as well as a feature profile including location, beds, bath, and sq footage. This information is used to build a prediction function $\phi:\X \to \mathbb{R}_+$ on the expected error of the participant. 
+	\item Participants fill out an attention check and some questions on home ownership unrelated to any specific numbers.
+	\item Participants are asked to evaluate monthly rent on 10 more apparentments while being assigned to one of the following testing conditions:
+	\begin{itemize}
+		\item \textit{Always} - Participants always receive a prediction to help them estimate the rent
+		\item \textit{Rand-50} - Participants receive a prediction to help them estimate the rent randomly with probability $0.5$
+		\item \textit{Strat-50} - Participants receive a prediction to help them if the are likely to make a mistake according to $\phi$ (in expectation half of cases)
+		\item \textit{Rand-20} - Participants receive a prediction to help them estimate the rent randomly with probability $0.2$
+		\item \textit{Strat-20} - Participants receive a prediction to help them if the are likely to make a mistake according to $\phi$ (in expectation one-fifth of cases)
+		\item \textit{Always-Phi} - Participants always receive a prediction to help them estimate the rent alongside $\phi$.
+	\end{itemize}
+	\item Participants are debriefed and paid based on the MSE of their predictions.
+\end{enumerate}
+
+\subsection*{Tests}
+
+\begin{enumerate}
+	\item [A1.] Evaluators in \textit{Always} will predict further from $s$ on the 'worst 50\%' than evaluators in \textit{Strat-50} will. Similarly, evaluators in the \textit{Always} will predict further from $s$ on their 'worst 20\%' than evaluators in \textit{Strat-20} will.
+	\item [A2.] Evaluators in \textit{Rand-50} will predict further from $s$ on the 'worst 50\%' than evaluators in \textit{Strat-50} will. Similarly, evaluators in the \textit{Rand-20} will predict further from $s$ on their 'worst 20\%' than evaluators in \textit{Strat-20} will.
+	\item [B1.] Evaluators in \textit{Always} will perform worse than worse on average than evaluators in either \textit{Strat-50} or \textit{Strat-20}.
+	\item [B2.] Evaluators in \textit{Rand-50} will perform worse on average than evaluators in \textit{Strat-50}. Similarly, evaluators in \textit{Rand-20} will perform worse than worse on average than evaluators in \textit{Strat-20}.
+	\item [C1.] Evaluators in the \textit{Always-Phi} condition will predict further from $s$ on the 'worst 50\%' than evaluators in \textit{Strat-50} will.  Similarly, evaluators in the \textit{Always-Phi} condition will predict further from $s$ on their 'worst 20\%' less than evaluators in \textit{Strat-20} will.
+	\item [C2.] Evaluators in the \textit{Always-Phi} condition will perform worse on average than evaluators in either \textit{Strat-50} or \textit{Strat-20}.
+\end{enumerate}
+
+\textbf{}
+
+\end{document}
