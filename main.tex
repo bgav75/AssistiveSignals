@@ -34,21 +34,23 @@ High level Concept Explanation
 
 \subsection*{Problem Enviornment}
 
-An individual of type $X \in \X$ arrives independently according to probability distribution $\Gamma_X \in \Delta(\X)$. We need to respond with an action $Y \in \Y$ (which can be random) that then earns us a utility $U(X,Y) \in \R$. Once $X$ and $Y$ are realized the value of $U(X,Y)$ is drawn independently from $\Gamma_U(X,Y) \in \Delta(\mathbb{R}).$ In this way $\Gamma_U$ is a function on $\X \times \Y$ which determines the irreducible uncertainty in the outcomes of our problem. Our goal is to maximize our utility.
+An individual of type $X \in \X$ arrives independently according to probability distribution $\Gamma_X \in \Delta(\X)$. We will respond with an action $Y \in \Y$ (which can be random) that then earns us a utility $U(X,Y) \in \R$. Once $X$ and $Y$ are realized the value of $U(X,Y)$ is drawn independently from $\Gamma_U(X,Y) \in \Delta(\mathbb{R}).$ In this way $\Gamma_U$ is a function on $\X \times \Y$ which determines the irreducible uncertainty in the outcomes of our problem. Our goal is to maximize $U$.
 
 \subsection*{Decision Rule}
 
-To determine $Y$ a decision rule $D:\X \to \Delta(\Y)$ is implemented. A decision rule captures our system's response to the problem. As utility-maximizer we hope to take an action from,
+To determine $Y$ a decision rule $D:\X \to \Delta(\Y)$ is implemented. A decision rule captures our system's response to the problem. As a utility-maximizer we hope to take an action from,
 $$\Y^*_X = \arg\max_Y \E[U(X,Y)|X].$$
 Thus, when evaluating a decision rule, we can focus on minimizing the deviations taken from this optimal set. This gives us the expected loss function for a decision rule $D$,
 $$L(D) = \E[U(X,Y^*(X)) - U(X,D(X))],$$
 where $Y^*(X) \in \Y^*_X$. Regardless of whether we have direct control over the formation of $D$, we want to take actions to minimize $L(D).$
 
-\subsection*{Decision Maker}
+\subsection*{Decision-Maker}
 
 The decision-maker is the creator of the decision rule. They earn a utility of,
 $$V(X,Y) = U(X,Y) + \delta(X,Y).$$
-In this way $\delta$ exactly encodes the deviations between our utility and the decision maker's utility. If $\delta = 0$, we say we are in control of the decision (as the decision maker acts exactly as we would want them to).
+In this way $\delta$ exactly encodes the deviations between our utility and the decision-maker's utility. The problem type $X$ is not known to the decision-maker. Instead the problem realization induces a probability distribution over which the decision-maker assume's $X$ was drawn. We call this $\Phi:X \to \Delta(\X)$, the decision-maker's interpretation of the problem. Together these make up the type of the decision-maker $\theta = (\Phi,\delta).$ If $\delta = 0$, we say the decision-maker is preference aligned (as the decision maker acts exactly as we would want them to subject to their understanding of the problem).
+
+
 
 
 
